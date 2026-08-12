@@ -1,4 +1,7 @@
-require("mason").setup()
+require("mason").setup(
+)
+
+vim.keymap.set("n", "<leader>m", "<cmd>Mason<CR>", opts)
 
 local capabilities = require("blink.cmp").get_lsp_capabilities({
 	textDocument = {

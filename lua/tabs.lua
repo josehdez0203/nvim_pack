@@ -13,7 +13,14 @@ require("bufferline").setup({
 		max_name_length = 30,
 		max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
 		tab_size = 21,
-		diagnostics = false,
+		-- diagnostics_indicator = function(count, level, diagnostics_dict, context)
+		-- 	local s = " "
+		-- 	for e, n in pairs(diagnostics_dict) do
+		-- 		local sym = e == "error" and " " or (e == "warning" and " " or " ")
+		-- 		s = s .. n .. sym
+		-- 	end
+		-- 	return s
+		-- end,
 		diagnostics_update_in_insert = false,
 		color_icons = true,
 		show_buffer_icons = true,
@@ -26,7 +33,7 @@ require("bufferline").setup({
 		show_tab_indicators = false,
 		indicator = {
 			-- icon = '▎', -- this should be omitted if indicator style is not 'icon'
-			style = "none", -- Options: 'icon', 'underline', 'none'
+			style = "underline", -- Options: 'icon', 'underline', 'none'
 		},
 		icon_pinned = "󰐃",
 		minimum_padding = 1,
@@ -40,10 +47,10 @@ require("bufferline").setup({
 		},
 		buffer_selected = {
 			bold = true,
-			italic = false,
+			italic = true,
 		},
 		-- separator_selected = {},
-		-- tab_selected = {},
+		tab_selected = {},
 		-- background = {},
 		-- indicator_selected = {},
 		-- fill = {},

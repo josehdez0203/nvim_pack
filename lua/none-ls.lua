@@ -54,13 +54,13 @@ null_ls.setup({
 			filetypes = { "go" },
 		}),
 		-- formatting.phpcbf,
-		formatting.pretty_php,
+		-- formatting.pretty_php,
 		-- formatting.prettier.with({
 		--   filetypes = { "php" },
 		--   extra_filetypes = { "php" },
 		-- }),
 		--
-		diagnostics.pylint,
+		-- diagnostics.pylint,
 
 		-- diagnostics.eslint_d.with({ -- js/ts linter
 		--   filetypes = { "js", "ts", "tsx", "jsx" },
