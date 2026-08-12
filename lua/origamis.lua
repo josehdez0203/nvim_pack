@@ -37,6 +37,12 @@ vim.opt.foldcolumn = "1"
 -- ft_ignore = { "oil" },
 statuscol.setup({
 	segments = {
+		-- statuscol sustituye la columna de signos nativa; conserva los indicadores
+		-- de Gitsigns en el margen, antes de los números de línea.
+		{
+			sign = { namespace = { "gitsigns" } },
+			click = "v:lua.ScSa",
+		},
 		{
 			text = { builtin.lnumfunc, " " },
 			condition = { true, builtin.not_empty },
