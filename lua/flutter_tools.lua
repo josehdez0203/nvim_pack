@@ -45,6 +45,13 @@ local opts = {
 }
 require("flutter-tools").setup(opts)
 
+-- flutter-tools.nvim difiere la creación de comandos hasta visitar un buffer
+-- Dart. Inicialízalo aquí cuando Neovim se abre desde un proyecto Flutter, para
+-- que :FlutterRun y Telescope estén disponibles sin esperar al primer buffer.
+if vim.uv.fs_stat(vim.fn.getcwd() .. "/pubspec.yaml") then
+	require("flutter-tools").setup_project({})
+end
+
 require("telescope").load_extension("flutter")
 vim.keymap.set("n", "<C-t>", "<CMD>Telescope flutter commands<CR>", {})
 -- vim.keymap.set("n", "<space>f", "<C-W>K", {})

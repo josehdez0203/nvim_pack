@@ -81,4 +81,5 @@ cmp.setup({
 	},
 })
 
+-- Busca los paquetes VS Code del runtime, incluido `friendly-snippets`.
 require("luasnip.loaders.from_vscode").lazy_load()

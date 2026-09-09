@@ -1,5 +1,6 @@
-require("mason").setup(
-)
+require("mason").setup()
+
+local opts = { noremap = true, silent = true }
 
 vim.keymap.set("n", "<leader>m", "<cmd>Mason<CR>", opts)
 
@@ -18,17 +19,18 @@ vim.lsp.config("*", {
 -- local lspconfig = require("lspconfig")
 
 -- local util = require("lspconfig/util")
-local opts = { noremap = true, silent = true }
 -- vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 vim.keymap.set({ "n", "v" }, "<c-c>", vim.lsp.buf.code_action, opts)
 vim.keymap.set("n", "fr", vim.lsp.buf.rename, opts)
 vim.keymap.set("n", "<leader>i", "<cmd>che vim.lsp<CR>", opts)
 vim.keymap.set("n", "<leader>y", "<cmd>lsp restart<CR>", opts)
-vim.keymap.set("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, {
+	desc = "Mostrar diagnósticos bajo el cursor",
+})
 vim.keymap.set("n", "<leader>,", "<cmd>lua vim.diagnostic.jump({count=-1, float=false})<cr>", opts)
 vim.keymap.set("n", "<leader>.", "<cmd>lua vim.diagnostic.jump({count=1, float=false})<cr>", opts)
--- vim.keymap.set("n", "<leader>df", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
--- vim.keymap.set("n", "<leader>dd", "<cmd>Telescope diagnostics<CR>", opts)
+vim.keymap.set("n", "<leader>df", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+vim.keymap.set("n", "<leader>dd", "<cmd>Telescope diagnostics<CR>", opts)
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#81a1c1" })
 vim.keymap.set("n", "k", vim.lsp.buf.hover, {})
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
@@ -77,4 +79,5 @@ vim.lsp.enable({
 	"cssls",
 	"gopls",
 	"emmet_ls",
+	"dartls",
 })

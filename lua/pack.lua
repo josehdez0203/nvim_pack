@@ -20,13 +20,14 @@ require("tinydiags")
 require("nav")
 require("wiki")
 require("render-markdown").setup({
-	render_modes = { "n", "c", "t" },
+	-- 	render_modes = { "n", "c", "t" },
+	enabled = false,
 })
 require("nvimtree")
-require("origamis")
 require("rainbow")
 require("scroll")
 require("flutter_tools")
+require("origamis")
 require("folke")
 require("curl").setup()
 require("nvimtree")
