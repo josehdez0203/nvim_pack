@@ -6,6 +6,17 @@ local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
 -- to setup format on save
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+-- prettierd no puede inferir un parser para las plantillas HTML (*.tmpl,
+-- *.gohtml): su extensión no corresponde a ningún lenguaje de prettier y
+-- falla con "No parser could be inferred". En esos buffers el servidor "html"
+-- sí sabe formatearlas (lspconfig activa provideFormatter), así que se le deja
+-- participar en el guardado además de null-ls.
+local function is_html_template(bufnr)
+	local name = vim.api.nvim_buf_get_name(bufnr)
+	return name:match("%.tmpl$") ~= nil or name:match("%.gohtml$") ~= nil
+end
+
 null_ls.setup({
 	-- add package.json as identifier for root (for typescript monorepos)
 	root_dir = null_ls_utils.root_pattern(".null-ls-root", "Makefile", ".git", "package.json"),
@@ -28,7 +39,6 @@ null_ls.setup({
 				"typescript",
 				"javascriptreact",
 				"typescriptreact",
-				"templ",
 				-- "template",
 				"gohtml",
 				"json",
@@ -62,6 +72,25 @@ null_ls.setup({
 		--
 		-- diagnostics.pylint,
 
+		-- .env: no hay language server dedicado; dotenv-linter es el linter
+		-- estándar. Neovim 0.12 ya detecta *.env y .env.* como filetype
+		-- "env" (con syntax/env.vim), pero el builtin de none-ls solo declara
+		-- "sh", por eso se amplían los filetypes. Instalación:
+		--   :MasonUpdate
+		--   :MasonInstall dotenv-linter
+		diagnostics.dotenv_linter.with({
+			filetypes = { "env", "sh" },
+			-- dotenv-linter 4 exige subcomando (`dotenv-linter check <archivo>`);
+			-- el builtin de none-ls usa la forma vieja y falla con
+			-- "unrecognized subcommand".
+			args = { "check", "$FILENAME" },
+			-- el builtin ya filtra por nombre *.env*; además se comprueba que
+			-- el binario exista para no avisar en cada diagnóstico si falta
+			runtime_condition = function(params)
+				return vim.fn.executable("dotenv-linter") == 1 and params.bufname:find("%.env.*") ~= nil
+			end,
+		}),
+
 		-- diagnostics.eslint_d.with({ -- js/ts linter
 		--   filetypes = { "js", "ts", "tsx", "jsx" },
 		--   -- condition = function(utils)
@@ -79,14 +108,22 @@ null_ls.setup({
 				callback = function()
 					vim.lsp.buf.format({
 						filter = function(client)
-							--  only use null-ls for formatting instead of lsp server
-							return client.name == "null-ls"
+							-- null-ls (prettierd, stylua, …) formatea siempre
+							if client.name == "null-ls" then
+								return true
+							end
+							-- en plantillas HTML prettierd no puede; el servidor
+							-- html las formatea igual que el formato manual
+							return client.name == "html" and is_html_template(bufnr)
 						end,
 						bufnr = bufnr,
+						-- prettierd arranca en frío en el primer guardado
+						timeout_ms = 3000,
 					})
 				end,
 			})
 		end
 	end,
-	vim.keymap.set("n", "<leader>xx", vim.lsp.buf.format, {}),
 })
+
+vim.keymap.set("n", "<leader>xx", vim.lsp.buf.format, { desc = "Formatear buffer" })

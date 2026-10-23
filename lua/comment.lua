@@ -1,5 +1,9 @@
 require("Comment").setup({
-	enable_autocmd = false,
+	-- Mantiene gcc/gc activos además del mapeo personalizado de abajo.
+	mappings = {
+		basic = true,
+		extra = true,
+	},
 	pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 })
 -- vim.keymap.set('n', '<C-_>', require('Comment.api').toggle.linewise.current, opts)

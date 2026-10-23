@@ -20,8 +20,8 @@ require("tinydiags")
 require("nav")
 require("wiki")
 require("render-markdown").setup({
-	-- 	render_modes = { "n", "c", "t" },
-	enabled = false,
+	-- Render Markdown in normal, command-line, and terminal modes.
+	render_modes = { "n", "c", "t" },
 })
 require("nvimtree")
 require("rainbow")
@@ -46,10 +46,3 @@ hipatterns.setup({
 	},
 })
 require("codeium")
-
-vim.filetype.add({
-	extension = {
-		conf = "tmux",
-		templ = "html",
-	},
-})

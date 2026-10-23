@@ -93,6 +93,6 @@ vim.keymap.set(
 	":lua require'telescope'.extensions.project.project{}<CR>",
 	{ noremap = true, silent = true }
 )
-vim.keymap.set("n", "<F4>", "<cmd>UndotreeToggle<cr>", { desc = "undotree" })
+vim.keymap.set("n", "<leader><F4>", "<cmd>UndotreeToggle<cr>", { desc = "undotree" })
 vim.keymap.set("n", "<leader>zz", ":ZenMode<CR>", { desc = "ZenMode" }) -- ZenMode
 vim.keymap.set("n", "<leader>zt", ":Twilight<CR>", { desc = "Twilight" }) --Twilight

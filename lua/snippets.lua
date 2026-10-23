@@ -49,9 +49,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.fn.setreg("l", "yoconsole.log('" .. esc .. "pa:', " .. esc .. "pa)" .. esc)
 	end,
 })
-vim.cmd([[
-		autocmd BufRead,BufNewFile *.templ setfiletype html
-		]])
 -- _G.shift_k_enabled = false
 vim.api.nvim_create_augroup("LspGroup", {})
 

@@ -81,3 +81,23 @@ vim.lsp.enable({
 	"emmet_ls",
 	"dartls",
 })
+
+-- templ-ls: servidor oficial de templ (https://templ.guide). Mason todavía no
+-- lo empaqueta, se instala con:
+--   go install github.com/a-h/templ/cmd/templ@latest
+-- Solo se habilita si el binario existe para no avisar en cada archivo .templ.
+if vim.fn.executable("templ") == 1 then
+	vim.lsp.enable("templ")
+end
+
+-- bash-language-server también atiende los .env: Neovim 0.12 los detecta con
+-- filetype "env" (no hay LSP específico de dotenv) y bashls da hover,
+-- definición y completion de variables como si fuera un script de shell.
+-- Se mantienen "bash" y "sh" del config original.
+-- Instalación: :MasonInstall bash-language-server
+vim.lsp.config("bashls", {
+	filetypes = { "bash", "sh", "env" },
+})
+if vim.fn.executable("bash-language-server") == 1 then
+	vim.lsp.enable("bashls")
+end
